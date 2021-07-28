@@ -2,7 +2,7 @@
 <footer class="jumbotron container-fluid navbar-fixed-bottom text-center" style="margin-bottom: 0">
 	<p>Paran_gom Blog</p>
 	<p>
-		<a> <img src="/image/icon/Git.png" /> 죄송합니다. 프로젝트의 크리티컬한 정보의 유출의 위험이 있어 Private입니다.</a>
+		<a href="https://github.com/Paran-Bear/spring_boot-blog"> <img src="/image/icon/Git.png" />GitHub</a>
 	</p>
 	<p>
 		<img src="/image/icon/mail.png" /> znrdlsxjspt1@gmail.com
