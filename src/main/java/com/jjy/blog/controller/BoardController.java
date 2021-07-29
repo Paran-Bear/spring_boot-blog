@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.jjy.blog.config.auth.PrincipalDetail;
 import com.jjy.blog.model.User;
 import com.jjy.blog.repository.UserRepository;
+import com.jjy.blog.service.AdminService;
 import com.jjy.blog.service.BoardService;
 
 @Controller
@@ -20,6 +21,8 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@Autowired
+	private AdminService adminService;
 	
 	
 	
@@ -35,14 +38,16 @@ public class BoardController {
 	
 	
 	@GetMapping("/board/{id}/updateForm")
-	public String updateForm(@PathVariable int id, Model model) {
+	public String updateForm(@PathVariable int id, Model model,@PageableDefault(size=99,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
 		model.addAttribute("board",boardService.상세보기(id));
+		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/updateForm";
 	}
 	
 	//user권한 필요
 	@GetMapping("/board/saveForm")
-	public String saveForm() {
+	public String saveForm(Model model,@PageableDefault(size=99,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
+		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/saveForm";
 	}
 	

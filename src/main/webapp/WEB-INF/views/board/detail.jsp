@@ -15,7 +15,7 @@
 
 	</div>
 	<div>
-		<h3>${board.title}</h3>
+		<h3>[${board.category}]${board.title}</h3>
 	</div>
 
 	<hr>

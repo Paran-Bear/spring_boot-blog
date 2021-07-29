@@ -17,9 +17,10 @@ let index = {
 	},
 	save: function() {
 		let data = {
+			
 			title: $("#title").val(),
 			content: $("#content").val(),
-
+			category: $("#category").val(),
 		};
 		$.ajax({
 			type: "POST",

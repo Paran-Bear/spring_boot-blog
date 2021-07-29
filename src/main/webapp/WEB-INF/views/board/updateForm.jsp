@@ -6,8 +6,18 @@
 
 	<form>
 	<input type="hidden" id="id" value="${board.id}"/>
-		<div>
-			<input value="${board.title}" type="text" class="form-control" id="title" placeholder="Enter username" name="username" required>
+	<div class="input-group mt-3 mb-3">
+			<div class="input-group-prepend">
+				<div class="form-group">
+					<select class="form-control" id="category">
+						
+						<c:forEach var="category" items="${category.content}">
+							<option>${category.name }</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			<input type="text" class="form-control" id="title" placeholder="Á¦¸ñ" value="${board.title }"name="username" required>
 		</div>
 		<div>
 			<textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
