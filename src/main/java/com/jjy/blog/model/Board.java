@@ -50,7 +50,7 @@ public class Board {
 	private int count;//조회수
 	
 	
-	@JoinColumn(nullable = true,name="category")
+	@JoinColumn(nullable = true)
 	private String category;
 	
 	

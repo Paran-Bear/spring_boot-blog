@@ -59,6 +59,7 @@ let index = {
 	update: function() {
 		let id = $("#id").val();
 		let data = {
+			category: $("#category").val(),
 			title: $("#title").val(),
 			content: $("#content").val(),
 		};
@@ -71,7 +72,7 @@ let index = {
 			//안적어도 변환은 되긴 한다.
 		}).done(function(resp) {
 			alert("수정 되었습니다.");
-
+			
 			location.href = "/board/" + id;
 		}).fail(function(error) {
 
