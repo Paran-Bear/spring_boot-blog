@@ -47,6 +47,13 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	
 	
+	@GetMapping({"/",""})
+	public String index() {
+
+		return "index";
+
+	}
+	
 	@GetMapping("/auth/joinForm")
 	public String joinForm() {
 

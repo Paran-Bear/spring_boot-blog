@@ -17,42 +17,53 @@ import com.jjy.blog.service.BoardService;
 
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	private BoardService boardService;
-	
+
 	@Autowired
 	private AdminService adminService;
-	
-	
-	
-	
-	@GetMapping({"","/"})
-	public String index(Model model, @PageableDefault(size=10,sort="id",direction = Sort.Direction.DESC) Pageable pageable) {//컨트롤러에서 세션을 어떻게 찾는지..
-		//model은 request정보 view까지 데이터를 끌고 이동.
-		model.addAttribute("boards",boardService.글목록(pageable));//view-resolver작동
-		//index.jsp로 boards 이름으로 데이터가 넘어감.
-		return "index";
+
+	@GetMapping("/board/category/{requiredCategory}")
+	public String boardCategory(@PathVariable int requiredCategory, Model model,
+			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {// 컨트롤러에서 세션을
+																											// 어떻게 찾는지..
+		// model은 request정보 view까지 데이터를 끌고 이동.
+
+		model.addAttribute("boards", boardService.글목록(requiredCategory, pageable));// view-resolver작동
+		model.addAttribute("category", adminService.카테고리조회(pageable));
+
+		// index.jsp로 boards 이름으로 데이터가 넘어감.
+		return "board/board";
 	}
-	
-	
-	
+
+	@GetMapping("/board")
+	public String boardAll(Model model,
+			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+		model.addAttribute("boards", boardService.글목록(pageable));// view-resolver작동
+		model.addAttribute("category", adminService.카테고리조회(pageable));
+		return "board/board";
+	}
+
 	@GetMapping("/board/{id}/updateForm")
-	public String updateForm(@PathVariable int id, Model model,@PageableDefault(size=99,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
-		model.addAttribute("board",boardService.상세보기(id));
+	public String updateForm(@PathVariable int id, Model model,
+			@PageableDefault(size = 99, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+		model.addAttribute("board", boardService.상세보기(id));
 		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/updateForm";
 	}
-	
-	//user권한 필요
+
+	// user권한 필요
 	@GetMapping("/board/saveForm")
-	public String saveForm(Model model,@PageableDefault(size=99,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
+	public String saveForm(Model model,
+			@PageableDefault(size = 99, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/saveForm";
 	}
-	
+
 	@GetMapping("/board/{id}")
-	public String findById(@PathVariable int id,Model model,@PageableDefault(size=1,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
+	public String findById(@PathVariable int id, Model model,
+			@PageableDefault(size = 1, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 		model.addAttribute("board", boardService.상세보기(id));
 		model.addAttribute("boards", boardService.글목록(pageable));
 		model.addAttribute("totalElements", boardService.글목록(pageable).getNumber());

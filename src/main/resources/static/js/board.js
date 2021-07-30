@@ -16,25 +16,28 @@ let index = {
 
 	},
 	save: function() {
-		let data = {
-			
+		let categoryId = $("#categoryId").val();
+		let data = {			
 			title: $("#title").val(),
-			content: $("#content").val(),
-			category: $("#category").val(),
+			content: $("#content").val(),			
 		};
 		$.ajax({
 			type: "POST",
-			url: "/api/board",
+			url: "/api/board/"+categoryId,
 			data: JSON.stringify(data), //http body data, So need the "MINE TYPE"
 			contentType: "application/json; charset=utf-8", //What type of body Data(MINE)
 			dataType: "json"//Response from Request, bascically -> String Type(Json) --> Change to JavaScriptObject
 			//안적어도 변환은 되긴 한다.
 		}).done(function(resp) {
-			alert("저장 되었습니다.");
-			location.href = "/";
-		}).fail(function(error) {
+			
 
-			console.log(data);
+			alert("저장 되었습니다.");
+			console.log(categoryId);
+			location.href = "/board";
+		}).fail(function(error) {
+			alert("저장 실패.");
+
+			console.log("실패"+data);
 
 		});
 	},
@@ -48,7 +51,7 @@ let index = {
 		}).done(function(resp) {
 			alert("삭제 되었습니다.");
 
-			location.href = "/";
+			location.href = "/board";
 		}).fail(function(error) {
 
 			console.log(data);
@@ -58,21 +61,22 @@ let index = {
 	},
 	update: function() {
 		let id = $("#id").val();
+		let category = $("#category").val();
 		let data = {
-			category: $("#category").val(),
+
 			title: $("#title").val(),
 			content: $("#content").val(),
 		};
 		$.ajax({
 			type: "PUT",
-			url: "/api/board/" + id,
+			url: "/api/board/" + id + "/" + category,
 			data: JSON.stringify(data), //http body data, So need the "MINE TYPE"
 			contentType: "application/json; charset=utf-8", //What type of body Data(MINE)
 			dataType: "json"//Response from Request, bascically -> String Type(Json) --> Change to JavaScriptObject
 			//안적어도 변환은 되긴 한다.
 		}).done(function(resp) {
 			alert("수정 되었습니다.");
-			
+
 			location.href = "/board/" + id;
 		}).fail(function(error) {
 
@@ -102,7 +106,7 @@ let index = {
 
 		});
 	},
-	replyDelete: function(boardId,replyId) {
+	replyDelete: function(boardId, replyId) {
 		$.ajax({
 			type: "DELETE",
 			url: `/api/board/${boardId}/reply/${replyId}`,

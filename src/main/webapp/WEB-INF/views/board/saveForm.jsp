@@ -4,26 +4,20 @@
 
 <div class="container">
 
-	<form>
 
-		<div class="input-group mt-3 mb-3">
-			<div class="input-group-prepend">
-				<div class="form-group">
-					<select class="form-control" id="category">
-						
-						<c:forEach var="category" items="${category.content}">
-							<option>${category.name }</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<input type="text" class="form-control" id="title" placeholder="力格" name="username" required>
-		</div>
-		<div>
-			<textarea class="form-control summernote" rows="5" id="content"></textarea>
-		</div>
-		<button id="btn-save" class="btn btn-primary">历厘</button>
-	</form>
+	<div class="mt-3 mb-3">
+
+		<select id="categoryId">
+			<c:forEach var="category" items="${category.content}">
+				<option value="${category.id}">${category.name }</option>
+			</c:forEach>
+		</select> 
+		<input type="text" class="form-control" id="title" placeholder="力格" required>
+	</div>
+	<div>
+		<textarea class="form-control summernote" rows="5" id="content"></textarea>
+	</div>
+	<button id="btn-save" class="btn btn-primary">历厘</button>
 
 
 

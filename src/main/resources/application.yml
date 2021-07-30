@@ -32,7 +32,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 #      update, none, create가 될 수 있다. create는 계속 새로 테이블을 생성함을 의미. 기존에 있으면 Drop함
 #         최초에만 create하고, 후에는 update로 바꿔야 한다.
       naming:

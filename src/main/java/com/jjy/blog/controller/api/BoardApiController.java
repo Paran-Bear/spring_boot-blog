@@ -25,10 +25,10 @@ public class BoardApiController {
 	@Autowired
 	private BoardService boardService;
 	
-	@PostMapping("/api/board")
-	public ResponseDto<Integer> save(@RequestBody Board board,@AuthenticationPrincipal PrincipalDetail principal) {
-		
-		boardService.글쓰기(board,principal.getUser());
+	@PostMapping("/api/board/{categoryId}")
+	public ResponseDto<Integer> save(@PathVariable int categoryId,@RequestBody Board board,@AuthenticationPrincipal PrincipalDetail principal) {
+		System.out.println(categoryId);
+		boardService.글쓰기(board,principal.getUser(),categoryId);
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);		
 	}
@@ -39,9 +39,9 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
-	@PutMapping("/api/board/{id}")
-	public ResponseDto<Integer> update(@PathVariable int id,@RequestBody Board board){
-		boardService.수정하기(id,board);
+	@PutMapping("/api/board/{id}/{categoryId}")
+	public ResponseDto<Integer> update(@PathVariable int id,@PathVariable int categoryId,@RequestBody Board board){
+		boardService.수정하기(id,categoryId,board);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	

@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -49,9 +50,9 @@ public class Board {
 	//@ColumnDefault("0")//int 타입이라서 ' ' 사용하지 않음.
 	private int count;//조회수
 	
-	
-	@JoinColumn(nullable = true)
-	private String category;
+	@ManyToOne
+	@JoinColumn(nullable = true,name="categoryId")
+	private Category category;
 	
 	
 	@ManyToOne //다대일 관계 (한명의 유저는 여러 게시글을 작성 가능)

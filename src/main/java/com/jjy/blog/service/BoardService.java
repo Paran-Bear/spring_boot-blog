@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jjy.blog.model.Board;
+import com.jjy.blog.model.Category;
 import com.jjy.blog.model.Reply;
 import com.jjy.blog.model.RoleType;
 import com.jjy.blog.model.User;
 import com.jjy.blog.repository.BoardRepository;
+import com.jjy.blog.repository.CategoryRepository;
 import com.jjy.blog.repository.ReplyRepository;
 import com.jjy.blog.repository.UserRepository;
 
@@ -26,8 +28,18 @@ public class BoardService {
 	@Autowired
 	private ReplyRepository replyRepository;
 	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	
 	@Transactional // 하나의 메소드를 하나의 트랜젝션으로 묶여서, 실패를 하면 롤백을 한다.(롤백 코드도 짜야댐)
-	public void 글쓰기(Board board, User user) {// title, content
+	public void 글쓰기(Board board, User user, int categoryId) {// title, content
+		Category category=categoryRepository.findById(categoryId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 카테고리를 찾을수 없습니다.");
+		});
+		
+		
+		board.setCategory(category);
 		
 		board.setCount(0);
 		
@@ -44,6 +56,13 @@ public class BoardService {
 		return boardRepository.findAll(pageable);
 
 	}
+	@Transactional(readOnly=true)
+	public Page<Board> 글목록(int category,Pageable pageable) {
+
+		return boardRepository.findAllByCategory(category,pageable);
+
+	}
+	
 
 	@Transactional(readOnly=true)
 	public Board 상세보기(int id) {
@@ -61,12 +80,15 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void 수정하기(int id, Board requestBoard) {
+	public void 수정하기(int id, int categoryId, Board requestBoard) {
 		Board board=boardRepository.findById(id)
 				.orElseThrow(()->{
 					return new IllegalArgumentException("해당 글을 찾을수 없습니다.");
 				});//영속화 완료
-		board.setCategory(requestBoard.getCategory());
+		Category category=categoryRepository.findById(categoryId).orElseThrow(()->{
+			return new IllegalArgumentException("해당 카테고리는 존재하지 않습니다.");
+		});
+		board.setCategory(category);
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
 		//해당함수로 종료시 (Service가 종료될 때) 트랜잭션이 종료.

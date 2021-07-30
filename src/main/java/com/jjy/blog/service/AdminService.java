@@ -49,6 +49,7 @@ public class AdminService {
 		return categoryRepository.findAll(pageable);		
 	}
 	
+	
 	@Transactional
 	public void 카테고리추가(Category category) {
 		//category.setName(cname);

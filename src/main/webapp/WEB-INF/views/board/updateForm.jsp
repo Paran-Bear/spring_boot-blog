@@ -6,28 +6,28 @@
 
 	<form>
 		<input type="hidden" id="id" value="${board.id}" />
-		<div class="input-group mt-3 mb-3">
-			<div class="input-group-prepend">
-				<div class="form-group">
-					<select class="form-control" id="category">
+		<div class="mt-3 mb-3">
 
-						<c:forEach var="category" items="${category.content}">
-							<c:choose>
-								<c:when test="${category.name eq board.category }">
-									<option value="${category.name}" selected>${category.name }</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${category.name}">${category.name }</option>
-								</c:otherwise>
 
-							</c:choose>
+			<select id="category">
 
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<input type="text" class="form-control" id="title" placeholder="力格" value="${board.title }" name="username" required>
+				<c:forEach var="category" items="${category.content}">	
+					<c:choose>
+						<c:when test="${category.name eq board.category.name }">
+							<option value="${category.id}" selected>${category.name }</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${category.id}">${category.name }</option>
+						</c:otherwise>
+
+					</c:choose>
+
+				</c:forEach>
+			</select>
 		</div>
+
+		<input type="text" class="form-control" id="title" placeholder="力格" value="${board.title }" name="username" required>
+
 		<div>
 			<textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
 		</div>
