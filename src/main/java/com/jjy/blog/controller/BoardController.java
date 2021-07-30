@@ -29,8 +29,8 @@ public class BoardController {
 			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {// 컨트롤러에서 세션을
 																											// 어떻게 찾는지..
 		// model은 request정보 view까지 데이터를 끌고 이동.
-
-		model.addAttribute("boards", boardService.글목록(requiredCategory, pageable));// view-resolver작동
+		model.addAttribute("categoryNum",requiredCategory);
+		model.addAttribute("boards", boardService.글목록(pageable));// view-resolver작동
 		model.addAttribute("category", adminService.카테고리조회(pageable));
 
 		// index.jsp로 boards 이름으로 데이터가 넘어감.
@@ -41,6 +41,7 @@ public class BoardController {
 	public String boardAll(Model model,
 			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("boards", boardService.글목록(pageable));// view-resolver작동
+		model.addAttribute("categoryNum",0);
 		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/board";
 	}

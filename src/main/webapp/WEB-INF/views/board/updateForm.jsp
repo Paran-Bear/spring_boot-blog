@@ -4,7 +4,7 @@
 
 <div class="container">
 
-	<form>
+	
 		<input type="hidden" id="id" value="${board.id}" />
 		<div class="mt-3 mb-3">
 
@@ -32,7 +32,7 @@
 			<textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
 		</div>
 		<button id="btn-update" class="btn btn-primary">ÀúÀå</button>
-	</form>
+	
 
 
 

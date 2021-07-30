@@ -58,7 +58,7 @@ public class BoardService {
 	}
 	@Transactional(readOnly=true)
 	public Page<Board> 글목록(int category,Pageable pageable) {
-
+		System.out.println("보드서비스 : "+category);
 		return boardRepository.findAllByCategory(category,pageable);
 
 	}

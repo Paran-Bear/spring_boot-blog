@@ -15,5 +15,5 @@ import com.jjy.blog.model.User;
 //@Repository<--생략 가능
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 	@Query(value="select * from board where categoryId=?1",nativeQuery = true)
-	<T> Page<T> findAllByCategory(int categoryId,Pageable pageable);
+	Page<Board> findAllByCategory(int categoryId,Pageable pageable);
 }
