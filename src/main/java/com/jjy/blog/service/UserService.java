@@ -1,5 +1,7 @@
 package com.jjy.blog.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -84,6 +86,11 @@ public class UserService {
 
 		return user;
 
+	}
+
+	public List<User> 회원조회() {
+		// TODO Auto-generated method stub
+		return userRepository.findAll();
 	}
 
 //	@Transactional(readOnly=true)//Select 할 때 트랜젝션 시작, 서비스 종료시 트랜젝션 종료(정합성 유지)

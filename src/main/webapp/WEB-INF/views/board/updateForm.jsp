@@ -4,6 +4,7 @@
 
 <div class="container">
 
+		<input type="hidden" value="${principal.user.id }"/>
 	
 		<input type="hidden" id="id" value="${board.id}" />
 		<div class="mt-3 mb-3">

@@ -58,17 +58,23 @@ public class BoardService {
 	}
 	@Transactional(readOnly=true)
 	public Page<Board> 글목록(int category,Pageable pageable) {
-		System.out.println("보드서비스 : "+category);
+		
 		return boardRepository.findAllByCategory(category,pageable);
 
 	}
 	
 
-	@Transactional(readOnly=true)
+	@Transactional()
 	public Board 상세보기(int id) {
-		return boardRepository.findById(id).orElseThrow(() -> {
+		Board board = boardRepository.findById(id).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 글을 찾을수 없습니다.");
 		});
+		
+		board.setCount(board.getCount()+1);
+		//System.out.println(" save 전 게시글 번호:"+board.getId()+"\n증가한 조회수 :"+board.getCount());
+		boardRepository.save(board);
+	//	System.out.println(" save 후 게시글 번호:"+board.getId()+"\n증가한 조회수 :"+board.getCount());
+		return board;
 		// TODO Auto-generated method stub
 
 	}

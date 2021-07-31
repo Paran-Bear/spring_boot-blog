@@ -8,10 +8,9 @@
 		<button id="btn-delete" class="btn btn-danger">삭제</button>
 	</c:if>
 	<br /> <br />
-	<div align="right">
+	<div class ="small">
 
-		No.<span id="id">${board.id}</span> : <span>${board.user.nickname}</span>
-
+		<span id="id">${board.id}</span>
 
 	</div>
 	<div>
@@ -20,7 +19,8 @@
 
 	<hr>
 	<div>${board.content}</div>
-
+<div class="small text-right"><span>작성자:${board.user.nickname}</span>
+<span>조회수 :${board.count }</span></div>
 	<hr>
 	<div>
 		<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>

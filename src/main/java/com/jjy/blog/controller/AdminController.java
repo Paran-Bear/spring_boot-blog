@@ -58,7 +58,7 @@ public class AdminController {
 	public String Adminpage(Model model,@PageableDefault(size=99,sort="id",direction = Sort.Direction.ASC) Pageable pageable) {
 		
 		model.addAttribute("categorys", adminService.카테고리조회(pageable));
-
+		model.addAttribute("users",userService.회원조회());
 		return "admin/admin";
 
 	}

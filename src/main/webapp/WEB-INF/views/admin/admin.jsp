@@ -10,7 +10,7 @@
 
 	<!-- Tab panes -->
 	<div class="tab-content col-sm-6">
-
+<!-- 墨抛绊府 包府 -->
 		<div class="tab-pane container active pt-3" id="category">
 
 			<ul class="list-group">
@@ -36,9 +36,20 @@
 			</ul>
 
 		</div>
-		<div class="tab-pane container fade" id="users">...</div>
+<!-- 雀盔 包府 -->
+		<div class="tab-pane container fade" id="users">
+			<div><c:forEach var="user" items="${users}">
+				
+					<span>${user.username}</span>
+				<span>${user.nickname}</span>
+				<span>${user.email}</span>
+			</c:forEach></div>
+		</div>
 		<div class="tab-pane container fade" id="etc">...</div>
 	</div>
+
+
+
 </div>
 <script src="/js/admin.js"></script>
 <%@ include file="../layout/footer.jsp"%>
