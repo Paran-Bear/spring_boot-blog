@@ -1,2 +1,2 @@
 #!/bin/bash
-~/Blog_Project/Travis/deploy.sh > /dev/null 2> dev/null < /dev/null &
+nohup java -jar -Dspring.profiles.active=set0 target/Blog_-0.3.war &
