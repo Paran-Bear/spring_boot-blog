@@ -10,6 +10,6 @@ else
 	sleep 5
 fi
 
-sudo chmod +x Blog-_0.3.war
+sudo chmod +x Blog_-0.3.war
 nohup java -jar -Dspring.profiles.active=set0 Blog_-0.3.war &
 
