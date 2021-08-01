@@ -7,7 +7,7 @@
         <p>
             <img src="/image/icon/mail.png" /> znrdlsxjspt1@gmail.com
         </p>
-        <p>Blog v0.2</p>
+        <p>Blog v0.3</p>
     </footer>
     </body>
 
