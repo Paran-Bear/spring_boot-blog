@@ -11,5 +11,5 @@ else
 fi
 
 sudo chmod +x Blog_-0.3.war
-nohup java -jar -Dspring.profiles.active=set0 Blog_-0.3.war &
+nohup java -jar -Dspring.profiles.active=set0 Blog_-0.3.war >/dev/null &
 
