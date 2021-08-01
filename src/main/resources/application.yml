@@ -16,7 +16,10 @@ server:
 spring.devtools.add-properties: true
 
 spring:
-  config:    activate:      on-profile:      - local
+  config:
+    activate:
+      on-profile:
+      - local
   
   mvc:
     view:
@@ -47,8 +50,10 @@ spring:
 #표시된 텍스트들 이쁘게 정렬 ㅋㅋ
   jackson:
     serialization:
-      fail-on-empty-beans: false    date-format: yyyy-MM-dd HH:mm
-    time-zone: Asia/Seoul      
+      fail-on-empty-beans: false
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: Asia/Seoul
+      
 
 
 cos:
