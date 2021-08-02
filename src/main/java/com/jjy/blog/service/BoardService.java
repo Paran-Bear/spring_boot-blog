@@ -65,12 +65,13 @@ public class BoardService {
 	
 
 	@Transactional()
-	public Board 상세보기(int id) {
+	public Board 상세보기(int id,boolean hitup) {
 		Board board = boardRepository.findById(id).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 글을 찾을수 없습니다.");
 		});
-		
-		board.setCount(board.getCount()+1);
+		if(hitup) {
+			board.setCount(board.getCount() + 1);
+		}
 		//System.out.println(" save 전 게시글 번호:"+board.getId()+"\n증가한 조회수 :"+board.getCount());
 		boardRepository.save(board);
 	//	System.out.println(" save 후 게시글 번호:"+board.getId()+"\n증가한 조회수 :"+board.getCount());

@@ -30,6 +30,9 @@ import com.jjy.blog.model.OAuthToken;
 import com.jjy.blog.model.User;
 import com.jjy.blog.service.UserService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 //미인증 사용자들의 출입 경로 -->/auth/* 허용.
 // 그냥 주소가 / 인 경로를 허용 --> index.jsp
 //static이하 파일들 (/js/*, css/*, image/* 등등
@@ -48,8 +51,11 @@ public class UserController {
 	
 	
 	@GetMapping({"/",""})
-	public String index() {
-
+	public String index(HttpServletResponse response) {
+		Cookie cookie =new Cookie("view",null); 	//view라는 이름의 쿠키 생성
+		cookie.setComment("게시글 조회 확인");		//해당 쿠키가 어떤 용도인지 커멘트
+		cookie.setMaxAge(60*60*24*365);			//해당 쿠키의 유효시간을 설정 (초 기준)
+		response.addCookie(cookie);
 		return "index";
 
 	}

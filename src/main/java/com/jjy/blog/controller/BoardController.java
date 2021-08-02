@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -14,6 +15,9 @@ import com.jjy.blog.model.User;
 import com.jjy.blog.repository.UserRepository;
 import com.jjy.blog.service.AdminService;
 import com.jjy.blog.service.BoardService;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class BoardController {
@@ -49,7 +53,7 @@ public class BoardController {
 	@GetMapping("/board/{id}/updateForm")
 	public String updateForm(@PathVariable int id, Model model,
 			@PageableDefault(size = 99, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-		model.addAttribute("board", boardService.상세보기(id));
+		model.addAttribute("board", boardService.상세보기(id,false));
 		model.addAttribute("category", adminService.카테고리조회(pageable));
 		return "board/updateForm";
 	}
@@ -63,9 +67,16 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/{id}")
-	public String findById(@PathVariable int id, Model model,
-			@PageableDefault(size = 1, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-		model.addAttribute("board", boardService.상세보기(id));
+	public String findById(@CookieValue(name="view") String cookie, HttpServletResponse response, @PathVariable int id, Model model,
+						   @PageableDefault(size = 1, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+		boolean hitup = false;
+		System.out.println(cookie);
+		if (!(cookie.contains(String.valueOf(id)))) {
+			cookie += id + "/";
+			hitup=true;
+		}
+		response.addCookie(new Cookie("view", cookie));
+		model.addAttribute("board", boardService.상세보기(id,hitup));
 		model.addAttribute("boards", boardService.글목록(pageable));
 		model.addAttribute("totalElements", boardService.글목록(pageable).getNumber());
 		return "board/detail";
