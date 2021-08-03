@@ -37,7 +37,11 @@ public class BoardService {
 		Category category=categoryRepository.findById(categoryId).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 카테고리를 찾을수 없습니다.");
 		});
-		
+		String title=board.getTitle();
+		title=title.replace("<","&lt");
+		title=title.replace(">","&gt");
+		board.setTitle(title);
+
 		
 		board.setCategory(category);
 		

@@ -19,79 +19,92 @@ import com.jjy.blog.repository.UserRepository;
 @Service // 스프링이 컴포넌트 스캔을 해서 bean에 등록함(IoC해줌.)
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder encoder;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
-	@Transactional // 하나의 메소드를 하나의 트랜젝션으로 묶여서, 실패를 하면 롤백을 한다.(롤백 코드도 짜야댐)
-	public void 회원가입(User user) {
+    @Transactional // 하나의 메소드를 하나의 트랜젝션으로 묶여서, 실패를 하면 롤백을 한다.(롤백 코드도 짜야댐)
+    public void 회원가입(User user) {
 
-		String rawPassword = user.getPassword();// 원문
-		String encPassword = encoder.encode(rawPassword);// 해쉬
-		user.setPassword(encPassword);
-		user.setRole(RoleType.USER);
-		userRepository.save(user);
+        String rawPassword = user.getPassword();// 원문
+        String encPassword = encoder.encode(rawPassword);// 해쉬
+        user.setPassword(encPassword);
+        user.setRole(RoleType.USER);
+        userRepository.save(user);
 
-	}
+    }
 
-	@Transactional
-	public void 회원수정(User user) {
-		// 수정할때는 영속성 컨텍스트 User오브젝트를 영속화 하고, 영속화된 User오브젝트를 수정
-		// Select해서 User오브젝트를 DB로 가져오는 이유는 영속화 하기 위해
-		// 영속화된 오브젝트를 변경하면 자동으로 DB에 update쿼리를 실행한다..
-		User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
-			return new IllegalArgumentException("회원을 찾을수 없음.");
-		});
-		if (persistence.getOauth() == null || persistence.getOauth().equals("")) {
-			if (user.getPassword() == null || user.getPassword().equals("")) {
-				System.out.println("비밀번호 입력 없음.");
-			} else {
+    @Transactional
+    public void 회원수정(User user) {
+        // 수정할때는 영속성 컨텍스트 User오브젝트를 영속화 하고, 영속화된 User오브젝트를 수정
+        // Select해서 User오브젝트를 DB로 가져오는 이유는 영속화 하기 위해
+        // 영속화된 오브젝트를 변경하면 자동으로 DB에 update쿼리를 실행한다..
+        User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
+            return new IllegalArgumentException("회원을 찾을수 없음.");
+        });
+        if (persistence.getOauth() == null || persistence.getOauth().equals("")) {
+            if (user.getPassword() == null || user.getPassword().equals("")) {
+                System.out.println("비밀번호 입력 없음.");
+            } else {
 
-				System.out.println(persistence.getUsername());
-				System.out.println(persistence.getPassword());
-				System.out.println(persistence.getNickname());
-				System.out.println(persistence.getEmail());
-				String rawPassword = user.getPassword();
-				String encPassword = encoder.encode(rawPassword);
-				persistence.setPassword(encPassword);
-			}
-			persistence.setEmail(user.getEmail());
-			
-		}
-		else {
-			String rawPassword = user.getPassword();
-			String encPassword = encoder.encode(rawPassword);
-			persistence.setPassword(encPassword);
-			persistence.setPassword(user.getPassword());
-			persistence.setEmail(user.getEmail());
-		}
-		persistence.setNickname(user.getNickname());
-		
-		
-		
-		
-		
-		// 회원 수정 함수 종료시 --> 서비스 종료 --> 트랜잭션 종료 --> commit실행.
-		// 영속화된 persistence객체의 변화가 감지되면 더티체킹해서 변화된 것들을 update쿼리 실행.
+                System.out.println(persistence.getUsername());
+                System.out.println(persistence.getPassword());
+                System.out.println(persistence.getNickname());
+                System.out.println(persistence.getEmail());
+                String rawPassword = user.getPassword();
+                String encPassword = encoder.encode(rawPassword);
+                persistence.setPassword(encPassword);
+            }
+            persistence.setEmail(user.getEmail());
 
-	}
+        } else {
+            String rawPassword = user.getPassword();
+            String encPassword = encoder.encode(rawPassword);
+            persistence.setPassword(encPassword);
+            persistence.setPassword(user.getPassword());
+            persistence.setEmail(user.getEmail());
+        }
+        persistence.setNickname(user.getNickname());
 
-	@Transactional(readOnly = true)
-	public User 회원찾기(String username) {
-		User user = userRepository.findByUsername(username).orElseGet(() -> {
-			return new User();
-		});
 
-		return user;
+        // 회원 수정 함수 종료시 --> 서비스 종료 --> 트랜잭션 종료 --> commit실행.
+        // 영속화된 persistence객체의 변화가 감지되면 더티체킹해서 변화된 것들을 update쿼리 실행.
 
-	}
+    }
 
-	public List<User> 회원조회() {
-		// TODO Auto-generated method stub
-		return userRepository.findAll();
-	}
+    @Transactional(readOnly = true)
+    public User 회원찾기(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(() -> {
+            return new User();
+        });
+
+        return user;
+    }
+
+    @Transactional(readOnly = true)
+    public User 회원이메일찾기(String email) {
+
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            return new User();
+        });
+        return user;
+
+    }
+    @Transactional(readOnly = true)
+    public User 회원닉네임찾기(String nickname) {
+
+        User user = userRepository.findByNickname(nickname).orElseGet(() -> {
+            return new User();
+        });
+        return user;
+
+    }
+    public List<User> 회원조회() {
+        // TODO Auto-generated method stub
+        return userRepository.findAll();
+    }
 
 //	@Transactional(readOnly=true)//Select 할 때 트랜젝션 시작, 서비스 종료시 트랜젝션 종료(정합성 유지)
 //	public User 로그인(User user) {

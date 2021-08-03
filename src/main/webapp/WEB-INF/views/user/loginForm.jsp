@@ -10,7 +10,7 @@
 			<div class="invalid-feedback">Please fill out this field.</div>
 		</div>
 		<div class="form-group">
-			<label for="pwd">Password:</label> <input type="password" class="form-control" id="passwordd" placeholder="Enter password" name="password" required>
+			<label for="pwd">Password:</label> <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
 			<div class="valid-feedback">Valid.</div>
 			<div class="invalid-feedback">Please fill out this field.</div>
 		</div>

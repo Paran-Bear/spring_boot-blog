@@ -1,6 +1,10 @@
 package com.jjy.blog.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jjy.blog.model.Board;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -15,6 +19,7 @@ import com.jjy.blog.model.User;
 import com.jjy.blog.repository.UserRepository;
 import com.jjy.blog.service.AdminService;
 import com.jjy.blog.service.BoardService;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -43,10 +48,14 @@ public class BoardController {
 
 	@GetMapping("/board")
 	public String boardAll(Model model,
-			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) throws JsonProcessingException {
+		Page p=boardService.글목록(pageable);
+		ObjectMapper objectMapper=new ObjectMapper();
+
 		model.addAttribute("boards", boardService.글목록(pageable));// view-resolver작동
 		model.addAttribute("categoryNum",0);
 		model.addAttribute("category", adminService.카테고리조회(pageable));
+		//objectMapper.writeValueAsString(p)
 		return "board/board";
 	}
 
@@ -76,7 +85,9 @@ public class BoardController {
 			hitup=true;
 		}
 		response.addCookie(new Cookie("view", cookie));
-		model.addAttribute("board", boardService.상세보기(id,hitup));
+		Board board=boardService.상세보기(id,hitup);
+
+		model.addAttribute("board", board);
 		model.addAttribute("boards", boardService.글목록(pageable));
 		model.addAttribute("totalElements", boardService.글목록(pageable).getNumber());
 		return "board/detail";

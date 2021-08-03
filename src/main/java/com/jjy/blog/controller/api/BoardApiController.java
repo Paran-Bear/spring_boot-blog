@@ -1,7 +1,12 @@
 package com.jjy.blog.controller.api;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jjy.blog.Xss.HtmlCharacterEscapes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,10 +29,14 @@ public class BoardApiController {
 	
 	@Autowired
 	private BoardService boardService;
-	
+
+
+
 	@PostMapping("/api/board/{categoryId}")
-	public ResponseDto<Integer> save(@PathVariable int categoryId,@RequestBody Board board,@AuthenticationPrincipal PrincipalDetail principal) {
-		System.out.println(categoryId);
+	public ResponseDto<Integer> save(@PathVariable int categoryId,@RequestBody Board board,@AuthenticationPrincipal PrincipalDetail principal) throws JsonProcessingException {
+		System.out.println("Reqeuset Body : "+board);
+
+
 		boardService.글쓰기(board,principal.getUser(),categoryId);
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);		

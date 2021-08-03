@@ -6,13 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jjy.blog.model.Board;
 import com.jjy.blog.model.User;
+import org.springframework.data.jpa.repository.Query;
 
 //DAO
 //자동으로 bean등록
 //@Repository<--생략 가능
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
 	Optional<User> findByUsername(String username);
+	Optional<User> findByNickname(String Nickname);
+	Optional<User> findByEmail(String Email);
 	
 	//네이밍 쿼리
 	//select * from user where username=1?; 1?<-- 인수.

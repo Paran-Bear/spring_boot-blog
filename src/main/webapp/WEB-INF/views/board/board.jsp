@@ -42,6 +42,7 @@
 						<div class="p-2 flex-grow-1 text-center">
 							<a class="text-dark" href="/board/${board.id}">${board.title}</a>
 						</div>
+						<div class="p-2 small">${board.count}</div>
 						<div class="p-2 small">
 							<fmt:parseDate var="parseRegDate" value="${board.createDate}" pattern="yyyy-MM-dd HH:mm" />
 							<fmt:formatDate var="date" value="${parseRegDate}" pattern="yyyy-MM-dd HH:mm" />

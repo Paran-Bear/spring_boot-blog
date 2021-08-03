@@ -2,13 +2,10 @@ package com.jjy.blog.controller;
 
 import java.util.UUID;
 
+import com.jjy.blog.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -48,8 +47,11 @@ public class UserController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
-	
+
+
+
+
+
 	@GetMapping({"/",""})
 	public String index(HttpServletResponse response) {
 		Cookie cookie =new Cookie("view",null); 	//view라는 이름의 쿠키 생성

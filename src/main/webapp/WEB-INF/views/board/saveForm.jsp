@@ -1,35 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
 
-<%@ include file="../layout/header.jsp"%>
+<%@ include file="../layout/header.jsp" %>
 
 <div class="container">
 
 
-	<div class="mt-3 mb-3">
-
-		<select id="categoryId">
-			<c:forEach var="category" items="${category.content}">
-				<option value="${category.id}">${category.name }</option>
-			</c:forEach>
-		</select> 
-		<input type="text" class="form-control" id="title" placeholder="力格" required>
-	</div>
-	<div>
-		<textarea class="form-control summernote" rows="5" id="content"></textarea>
-	</div>
-	<button id="btn-save" class="btn btn-primary">历厘</button>
-
+    <div class="mt-3 mb-3">
+        <select id="categoryId">
+            <c:forEach var="category" items="${category.content}">
+                <option value="${category.id}">${category.name }</option>
+            </c:forEach>
+        </select>
+        <input type="text" class="form-control" id="title" placeholder="力格" required>
+    </div>
+    <div>
+        <textarea class="form-control summernote" rows="5" id="content"></textarea>
+    </div>
+    <button id="btn-save" class="btn btn-primary">历厘</button>
 
 
 </div>
 <script src="/js/board.js"></script>
-<br />
+<br/>
 <script>
-	$('.summernote').summernote({
-		placeholder : 'Hello Bootstrap 4',
-		tabsize : 2,
-		height : 300
-	});
+    $('.summernote').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 300
+    });
 </script>
-<%@ include file="../layout/footer.jsp"%>
+<%@ include file="../layout/footer.jsp" %>
 
