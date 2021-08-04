@@ -41,9 +41,10 @@ let index = {
         //ajax통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
         //ajax가 통신 성공후 서버가 json을 리턴하면, 자동으로 자바 오브젝트로 변환해줌(아마 최신 버전이라)
 
-
-        if (check.user_ == "check" && check.nick_ == "check" && check.email_ == "check") {
-            if (data.password.trim().length < 8 || data.password.search(/\s/) != -1) {
+        var regExpPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
+        if (check.user_ == "check" && check.nick_ == "check" && check.email_ == "check")
+        {
+            if (!regExpPw.test(data.password)) {
                 alert("비밀번호 양식을 확인해주세요.");
             } else {
                 if (data.password == check.password_) {
@@ -74,11 +75,7 @@ let index = {
                 }
             }
         } else {
-            alert("중복체크를 해주세요.")
-
-        }
-
-
+            alert("중복체크를 해주세요.")        }
     },
     update: function () {
         let data = {
@@ -106,12 +103,14 @@ let index = {
             console.log(data);
 
         });
-    },
+    }
+    ,
     usernameCheck: function () {
         let username = $("#username").val();
 
-        if (username.search(/\s/) != -1) {
-            alert("아이디에는 공백이 들어갈 수 없습니다.");
+        var re = /^[a-zA-Z0-9]{4,12}$/;
+        if (!re.test(username)) {
+            alert("아이디의 양식을 지켜주세요");
         } else {
             if (username.trim().length != 0) {
                 // alert(username);
@@ -146,11 +145,13 @@ let index = {
         }
 
 
-    },
+    }
+    ,
     nicknameCheck: function () {
         let nickname = $("#nickname").val();
-        if (nickname.search(/\s/) != -1) {
-            alert("닉네임에는 공백이 들어갈 수 없습니다.");
+        var re = /^[a-zA-Z0-9]{4,12}$/g;
+        if (!re.test(nickname)) {
+            alert("닉네임의 양식을 지켜주세요..");
         } else {
             if (nickname.trim().length != 0) {
                 // alert(username);
@@ -185,46 +186,45 @@ let index = {
             }
         }
 
-    },
+    }
+    ,
     mailCheck: function () {
         let email = $("#email").val();
-        if (email.search(/\s/) != -1) {
-            alert("이메일 형식에 맞춰주세요.");
+        var re2 = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;// 이메일이 적합한지 검사할 정규식
+        if (!re2.test(email)) {
+            alert("이메일 양식에 맞춰주세요.");
         } else {
-            if (email.trim().length != 0) {
-                // alert(username);
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    url: `/auth/emailcheck/${email}`,
-                    // data: JSON.stringify(data), //http body data, So need the "MINE TYPE"
-                    // contentType: "application/json; charset=utf-8", //What type of body Data(MINE)
-                    // dataType: "json"//Response from Request, bascically -> String Type(Json) --> Change to JavaScriptObject
-                    //안적어도 변환은 되긴 한다.
-                }).done(function (resp) {
-                    //console.log(data);
-                    if (resp.status == -1) {
-                        alert("이미 사용중 입니다.");
+            // alert(username);
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: `/auth/emailcheck/${email}`,
+                // data: JSON.stringify(data), //http body data, So need the "MINE TYPE"
+                // contentType: "application/json; charset=utf-8", //What type of body Data(MINE)
+                // dataType: "json"//Response from Request, bascically -> String Type(Json) --> Change to JavaScriptObject
+                //안적어도 변환은 되긴 한다.
+            }).done(function (resp) {
+                //console.log(data);
+                if (resp.status == -1) {
+                    alert("이미 사용중 입니다.");
 
-                        $("#email").val("");
+                    $("#email").val("");
 
-                    } else {
-                        alert("사용 가능 합니다.");
-                        $("#email_duple_check").val("check");
-                        document.getElementById('check_email').className = 'btn-success';
-                    }
+                } else {
+                    alert("사용 가능 합니다.");
+                    $("#email_duple_check").val("check");
+                    document.getElementById('check_email').className = 'btn-success';
+                }
 
-                    // location.href = "/";
-                }).fail(function (error) {
-                    //alert(JSON.stringify(error));
-                    alert("이메일 형식에 맞춰주세요.");
-                });
-            } else {
+                // location.href = "/";
+            }).fail(function (error) {
+                //alert(JSON.stringify(error));
                 alert("이메일 형식에 맞춰주세요.");
-            }
+            });
         }
-
     }
+
 }
+
 
 index.init();

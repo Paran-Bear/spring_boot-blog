@@ -38,8 +38,8 @@ public class BoardService {
 			return new IllegalArgumentException("해당 카테고리를 찾을수 없습니다.");
 		});
 		String title=board.getTitle();
-		title=title.replace("<","&lt");
-		title=title.replace(">","&gt");
+		title=title.replace("<","&lt;");
+		title=title.replace(">","&gt;");
 		board.setTitle(title);
 
 		
@@ -109,7 +109,9 @@ public class BoardService {
 
 	@Transactional
 	public void 댓글쓰기(User user, int boardId, Reply requestReply) {
-		
+
+		requestReply.setContent(requestReply.getContent().replace("<","&lt;"));
+		requestReply.setContent(requestReply.getContent().replace(">","&gt;"));
 		
 		Board board = boardRepository.findById(boardId).orElseThrow(()->{
 			return new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다.");

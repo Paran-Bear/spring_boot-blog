@@ -3,8 +3,12 @@ package com.jjy.blog.controller;
 import java.util.UUID;
 
 import com.jjy.blog.dto.ResponseDto;
+import com.jjy.blog.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,16 +53,19 @@ public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	private BoardService boardService;
 
 
 
 
 	@GetMapping({"/",""})
-	public String index(HttpServletResponse response) {
+	public String index(HttpServletResponse response, Model model,@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		Cookie cookie =new Cookie("view",null); 	//view라는 이름의 쿠키 생성
 		cookie.setComment("게시글 조회 확인");		//해당 쿠키가 어떤 용도인지 커멘트
 		cookie.setMaxAge(60*60*24*365);			//해당 쿠키의 유효시간을 설정 (초 기준)
 		response.addCookie(cookie);
+		model.addAttribute("boards",boardService.글목록(pageable));
 		return "index";
 
 	}

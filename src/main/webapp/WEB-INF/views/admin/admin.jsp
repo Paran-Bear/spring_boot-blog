@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 
 <%@ include file="../layout/header.jsp"%>
-<div class="container pt-3 ">
+<div class="container pt-3 m-5">
+	<c:if test="${principal.user.role eq 'ADMIN'}">
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#category">카테고리</a></li>
 		<li class="nav-item"><a class="nav-link" data-toggle="pill" href="#users">회원 관리</a></li>
@@ -48,7 +49,7 @@
 		<div class="tab-pane container fade" id="etc">...</div>
 	</div>
 
-
+	</c:if>
 
 </div>
 <script src="/js/admin.js"></script>

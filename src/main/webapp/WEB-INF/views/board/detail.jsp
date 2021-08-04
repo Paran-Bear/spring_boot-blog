@@ -2,7 +2,7 @@
 
 <%@ include file="../layout/header.jsp"%>
 
-<div class="container">
+<div class="container m-5">
 	<c:if test="${board.user.id eq principal.user.id}">
 		<a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a>
 		<button id="btn-delete" class="btn btn-danger">삭제</button>

@@ -2,7 +2,7 @@
 
 <%@ include file="../layout/header.jsp"%>
 
-<div class="container">
+<div class="container m-5">
 
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link" href="/board">전체</a></li>
@@ -17,7 +17,11 @@
 
 	<c:choose>
 		<c:when test="${categoryNum eq 0 }">
-			<h2>전체</h2>
+			<div class="d-flex justify-content-between">
+			<h2 class="p-2 ">전체</h2>
+
+				<a href="/board/saveForm" class="btn btn-outline-info btn-sm shadow" style="height: 50%;" role="button">글쓰기</a>
+			</div>
 			<c:forEach var="board" items="${boards.content }">
 				<div class="d-flex justify-content-start rounded border border-dark mb-3">
 					<div class="p-2">${board.category.name }</div>
